@@ -4,9 +4,9 @@
 
 ## Checklist
 
-- [ ] `npm test` passes, and `node test/render.mjs <folder>` if the card's rendering changed
+- [ ] `npm test` passes, and the three cards were looked at in a light and a dark theme if their drawing changed
 - [ ] An entry under `## [Unreleased]` in `CHANGELOG.md`, unless this changes nothing a user would notice
 - [ ] Still one JavaScript file with no dependencies and no build step
 - [ ] Every value that comes from a sensor is escaped or set as text
-- [ ] No health data in screenshots or test fixtures
+- [ ] No real phone use in screenshots or test fixtures
 - [ ] README updated if behavior or configuration changed

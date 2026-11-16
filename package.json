@@ -1,0 +1,11 @@
+{
+  "name": "life-dashboard-screen-time-card",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Home Assistant dashboard cards for screen time: today on one phone, the week, and the whole family.",
+  "scripts": {
+    "test": "node --test test/data.test.mjs"
+  },
+  "license": "MIT"
+}
