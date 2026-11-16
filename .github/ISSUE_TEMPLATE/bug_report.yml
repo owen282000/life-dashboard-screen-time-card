@@ -1,0 +1,40 @@
+name: Bug report
+description: The card draws something wrong or does not load
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you expected, and what the card did. A screenshot helps; hide anything you would rather keep private.
+    validations:
+      required: true
+  - type: dropdown
+    id: sensor
+    attributes:
+      label: Which sensor does the card read?
+      options:
+        - Life Dashboard integration
+        - Google Family Link
+        - history_stats or another sensor
+        - Something else
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: The cards, Home Assistant, and the integration that gives the screen time.
+      placeholder: "Cards 0.1.0, Home Assistant 2026.11.1, integration 0.13.0"
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser or app
+      placeholder: "Chrome on a laptop, or the Companion app on an iPhone"
+  - type: textarea
+    id: attributes
+    attributes:
+      label: Which card and which source
+      description: Today, week or family, and where the screen time comes from (Life Dashboard, Family Link, history_stats). Please leave out app names you would rather not share.
