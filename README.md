@@ -139,6 +139,8 @@ These cards sit on top of Life Dashboard's projects, and you only install the pa
   <a href="https://github.com/owen282000/life-dashboard-ha"><img src="https://raw.githubusercontent.com/owen282000/life-dashboard-screen-time-card/main/docs/family/ha.png" alt="Home Assistant integration: sensors and all your history" width="400"></a>
   <a href="https://github.com/owen282000/life-dashboard-companion-app-ios"><img src="https://raw.githubusercontent.com/owen282000/life-dashboard-screen-time-card/main/docs/family/ios.png" alt="iPhone app: Apple Health" width="400"></a>
   <a href="https://github.com/owen282000/life-dashboard-stack"><img src="https://raw.githubusercontent.com/owen282000/life-dashboard-screen-time-card/main/docs/family/stack.png" alt="Grafana stack: Postgres and Grafana dashboards" width="400"></a>
+  <a href="https://github.com/owen282000/life-dashboard-sleep-card"><img src="https://raw.githubusercontent.com/owen282000/life-dashboard-screen-time-card/main/docs/family/sleep-card.png" alt="Sleep card: one night, stage by stage" width="400"></a>
+  <img src="https://raw.githubusercontent.com/owen282000/life-dashboard-screen-time-card/main/docs/family/screen-time-card-here.png" alt="Screen time cards: today, the week and the family (this repository)" width="400">
 </p>
 
 ## Privacy
