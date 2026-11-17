@@ -6,6 +6,10 @@ All notable changes to these cards are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- The cards are in the Marketplace's default list: the README leads with searching for them, with a custom repository as the fallback
+
 ## [0.1.0] - 2026-11-16
 
 ### Added

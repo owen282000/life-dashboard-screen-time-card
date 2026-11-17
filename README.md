@@ -10,6 +10,7 @@
 </p>
 
 <p align="center">
+  <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&repository=life-dashboard-screen-time-card&category=plugin"><img src="https://img.shields.io/badge/Marketplace-Listed-41BDF5" alt="Listed in the Home Assistant Marketplace"></a>
   <a href="https://github.com/owen282000/life-dashboard-screen-time-card/releases/latest"><img src="https://img.shields.io/github/v/release/owen282000/life-dashboard-screen-time-card?label=Release&color=30b77e" alt="Latest release"></a>
   <a href="https://www.home-assistant.io/"><img src="https://img.shields.io/badge/Home%20Assistant-2026.3%2B-41BDF5" alt="Home Assistant 2026.3 or newer"></a>
   <a href="https://github.com/owen282000/life-dashboard-screen-time-card/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue" alt="MIT license"></a>
@@ -51,9 +52,13 @@ The cards read what Android already counts for Digital Wellbeing, sent to Home A
 
 ## Install
 
-### As a custom repository in the Marketplace
+### Through the Home Assistant Marketplace
 
-Until it is in the Marketplace's default list: open **Settings > Marketplace** (HACS before Home Assistant 2026.11), the three dots, **Custom repositories**, and add `https://github.com/owen282000/life-dashboard-screen-time-card` as the type **Dashboard**. Then search for **Life Dashboard Screen Time** and download it.
+In **Settings > Marketplace** (HACS before Home Assistant 2026.11), search for **Life Dashboard Screen Time** and download it. The button opens it in your Home Assistant straight away:
+
+[![Open your Home Assistant instance and open this repository in the Marketplace](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&repository=life-dashboard-screen-time-card&category=plugin)
+
+Not in the list yet, for example because the Marketplace has not refreshed its list since? Add it yourself: the three dots, **Custom repositories**, and `https://github.com/owen282000/life-dashboard-screen-time-card` as the type **Dashboard**.
 
 On storage mode dashboards the resource is registered for you. If your dashboards are in YAML mode, add it yourself:
 
