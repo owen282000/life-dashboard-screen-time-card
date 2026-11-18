@@ -6,6 +6,8 @@ All notable changes to these cards are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-18
+
 ### Added
 
 - Google Family Link (HAFamilyLink) and Microsoft Family Safety (HAFamilySafety) as sources: their daily screen time sensors are in the pickers, the apps come along, the week reads their statistics, and the daily limit set there is used when the card has none
@@ -26,5 +28,6 @@ All notable changes to these cards are documented here. The format follows
 - Visual editors built on Home Assistant's own form, with per app a name, a color and hiding
 - English, Dutch and German, following the Home Assistant profile
 
-[Unreleased]: https://github.com/owen282000/life-dashboard-screen-time-card/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/owen282000/life-dashboard-screen-time-card/compare/0.2.0...HEAD
+[0.2.0]: https://github.com/owen282000/life-dashboard-screen-time-card/compare/0.1.0...0.2.0
 [0.1.0]: https://github.com/owen282000/life-dashboard-screen-time-card/releases/tag/0.1.0

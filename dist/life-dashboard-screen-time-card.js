@@ -2,7 +2,7 @@
 // A single ES module with no dependencies and no build step. Three cards share the code;
 // the pure data functions are exported so test/data.test.mjs can run them under Node.
 
-export const VERSION = "0.1.0";
+export const VERSION = "0.2.0";
 
 const TAG = {
   today: "life-dashboard-screen-time-card",
