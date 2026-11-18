@@ -10,6 +10,8 @@ const TAG = {
   family: "life-dashboard-screen-time-family-card",
 };
 const PLATFORM = "life_dashboard";
+// Parental control integrations whose screen time sensors the cards read as they are.
+const PARENTAL = new Set(["familylink", "microsoft_family_safety"]);
 const KEY = {
   today: "screen_time_today",
   yesterday: "screen_time_yesterday",
@@ -299,7 +301,382 @@ const STRINGS = {
     edColor: "Farbe für {app}",
     edReset: "Zurücksetzen",
   },
+  es: {
+    today: "Hoy",
+    vsYesterday: "vs. ayer",
+    vsAverage: "vs. media de 7 días",
+    appsUsed: "Apps usadas",
+    same: "igual",
+    of: "de {value}",
+    avg: "media {value}",
+    left: "quedan {value}",
+    over: "{value} de más",
+    noLimit: "Sin límite",
+    noLimitShort: "sin límite",
+    more: "+ {n} más",
+    less: "Mostrar menos",
+    synced: "Sincronizado {when}",
+    thisWeek: "Esta semana",
+    perDay: "de media al día",
+    overDays: "{n} de {total} por encima del límite",
+    other: "Otras",
+    family: "Familia",
+    devices: "Hoy, {n} dispositivos",
+    dayApps: "Apps de ese día",
+    noDayApps: "Activa los sensores de apps en la página del dispositivo del teléfono para ver las apps por día.",
+    noStats: "Aún no hay historial: la semana se completa con los días.",
+    noApps: "Hoy aún no hay apps.",
+    pickTitle: "Elige un teléfono",
+    pickBody: "Elige un sensor de tiempo de pantalla en los ajustes de la tarjeta.",
+    missingTitle: "Sensor no encontrado",
+    missingBody: "{entity} no existe. Revisa la entidad en los ajustes de la tarjeta.",
+    unavailableTitle: "Tiempo de pantalla no disponible",
+    unavailableBody: "{entity} no está disponible ahora.",
+    familyEmpty: "Añade los teléfonos de la familia en los ajustes de la tarjeta.",
+    edEntity: "Tiempo de pantalla hoy",
+    edTitle: "Título (opcional)",
+    edLimit: "Límite diario (opcional)",
+    edShown: "Apps antes de \"más\"",
+    edPeople: "Teléfonos",
+    edPerson: "Persona (opcional, para la foto)",
+    edName: "Nombre (opcional)",
+    edApps: "Apps",
+    edAppsHint: "Cambia el nombre de una app, dale tu propio color u ocúltala. Solo en esta tarjeta.",
+    edHide: "Ocultar {app}",
+    edShow: "Mostrar {app}",
+    edColor: "Color de {app}",
+    edReset: "Restablecer",
+  },
+  fr: {
+    today: "Aujourd'hui",
+    vsYesterday: "vs hier",
+    vsAverage: "vs moyenne sur 7 jours",
+    appsUsed: "Apps utilisées",
+    same: "pareil",
+    of: "sur {value}",
+    avg: "moy. {value}",
+    left: "reste {value}",
+    over: "{value} de trop",
+    noLimit: "Sans limite",
+    noLimitShort: "sans limite",
+    more: "+ {n} de plus",
+    less: "Afficher moins",
+    synced: "Synchronisé {when}",
+    thisWeek: "Cette semaine",
+    perDay: "par jour en moyenne",
+    overDays: "{n} sur {total} au-dessus de la limite",
+    other: "Autres",
+    family: "Famille",
+    devices: "Aujourd'hui, {n} appareils",
+    dayApps: "Apps de ce jour",
+    noDayApps: "Activez les capteurs d'apps sur la page de l'appareil du téléphone pour voir les apps par jour.",
+    noStats: "Pas encore d'historique : la semaine se remplit au fil des jours.",
+    noApps: "Aucune app pour l'instant aujourd'hui.",
+    pickTitle: "Choisissez un téléphone",
+    pickBody: "Choisissez un capteur de temps d'écran dans les réglages de la carte.",
+    missingTitle: "Capteur introuvable",
+    missingBody: "{entity} n'existe pas. Vérifiez l'entité dans les réglages de la carte.",
+    unavailableTitle: "Temps d'écran indisponible",
+    unavailableBody: "{entity} est indisponible pour le moment.",
+    familyEmpty: "Ajoutez les téléphones de la famille dans les réglages de la carte.",
+    edEntity: "Temps d'écran aujourd'hui",
+    edTitle: "Titre (facultatif)",
+    edLimit: "Limite quotidienne (facultatif)",
+    edShown: "Apps avant « de plus »",
+    edPeople: "Téléphones",
+    edPerson: "Personne (facultatif, pour la photo)",
+    edName: "Nom (facultatif)",
+    edApps: "Apps",
+    edAppsHint: "Renommez une app, donnez-lui votre couleur ou masquez-la. Pour cette carte uniquement.",
+    edHide: "Masquer {app}",
+    edShow: "Afficher {app}",
+    edColor: "Couleur de {app}",
+    edReset: "Réinitialiser",
+  },
+  it: {
+    today: "Oggi",
+    vsYesterday: "rispetto a ieri",
+    vsAverage: "rispetto alla media di 7 giorni",
+    appsUsed: "App usate",
+    same: "uguale",
+    of: "di {value}",
+    avg: "media {value}",
+    left: "restano {value}",
+    over: "{value} oltre",
+    noLimit: "Nessun limite",
+    noLimitShort: "nessun limite",
+    more: "+ altre {n}",
+    less: "Mostra meno",
+    synced: "Sincronizzato {when}",
+    thisWeek: "Questa settimana",
+    perDay: "al giorno in media",
+    overDays: "{n} su {total} oltre il limite",
+    other: "Altre",
+    family: "Famiglia",
+    devices: "Oggi, {n} dispositivi",
+    dayApps: "App di quel giorno",
+    noDayApps: "Attiva i sensori delle app nella pagina del dispositivo del telefono per vedere le app per giorno.",
+    noStats: "Ancora nessuna cronologia: la settimana si riempie con i giorni.",
+    noApps: "Ancora nessuna app oggi.",
+    pickTitle: "Scegli un telefono",
+    pickBody: "Scegli un sensore del tempo di utilizzo nelle impostazioni della scheda.",
+    missingTitle: "Sensore non trovato",
+    missingBody: "{entity} non esiste. Controlla l'entità nelle impostazioni della scheda.",
+    unavailableTitle: "Tempo di utilizzo non disponibile",
+    unavailableBody: "{entity} non è disponibile al momento.",
+    familyEmpty: "Aggiungi i telefoni della famiglia nelle impostazioni della scheda.",
+    edEntity: "Tempo di utilizzo oggi",
+    edTitle: "Titolo (facoltativo)",
+    edLimit: "Limite giornaliero (facoltativo)",
+    edShown: "App prima di \"altre\"",
+    edPeople: "Telefoni",
+    edPerson: "Persona (facoltativa, per la foto)",
+    edName: "Nome (facoltativo)",
+    edApps: "App",
+    edAppsHint: "Rinomina un'app, dalle un tuo colore o nascondila. Solo in questa scheda.",
+    edHide: "Nascondi {app}",
+    edShow: "Mostra {app}",
+    edColor: "Colore di {app}",
+    edReset: "Ripristina",
+  },
+  pt: {
+    today: "Hoje",
+    vsYesterday: "vs. ontem",
+    vsAverage: "vs. média de 7 dias",
+    appsUsed: "Apps usados",
+    same: "igual",
+    of: "de {value}",
+    avg: "média {value}",
+    left: "faltam {value}",
+    over: "{value} a mais",
+    noLimit: "Sem limite",
+    noLimitShort: "sem limite",
+    more: "+ {n} mais",
+    less: "Mostrar menos",
+    synced: "Sincronizado {when}",
+    thisWeek: "Esta semana",
+    perDay: "por dia em média",
+    overDays: "{n} de {total} acima do limite",
+    other: "Outros",
+    family: "Família",
+    devices: "Hoje, {n} dispositivos",
+    dayApps: "Apps naquele dia",
+    noDayApps: "Ative os sensores de apps na página do dispositivo do celular para ver os apps por dia.",
+    noStats: "Ainda sem histórico: a semana se completa com os dias.",
+    noApps: "Nenhum app hoje ainda.",
+    pickTitle: "Escolha um celular",
+    pickBody: "Escolha um sensor de tempo de tela nas configurações do cartão.",
+    missingTitle: "Sensor não encontrado",
+    missingBody: "{entity} não existe. Confira a entidade nas configurações do cartão.",
+    unavailableTitle: "Tempo de tela indisponível",
+    unavailableBody: "{entity} está indisponível agora.",
+    familyEmpty: "Adicione os celulares da família nas configurações do cartão.",
+    edEntity: "Tempo de tela hoje",
+    edTitle: "Título (opcional)",
+    edLimit: "Limite diário (opcional)",
+    edShown: "Apps antes de \"mais\"",
+    edPeople: "Celulares",
+    edPerson: "Pessoa (opcional, para a foto)",
+    edName: "Nome (opcional)",
+    edApps: "Apps",
+    edAppsHint: "Renomeie um app, dê a ele sua própria cor ou oculte-o. Só neste cartão.",
+    edHide: "Ocultar {app}",
+    edShow: "Mostrar {app}",
+    edColor: "Cor de {app}",
+    edReset: "Redefinir",
+  },
+  ja: {
+    today: "今日",
+    vsYesterday: "昨日と比較",
+    vsAverage: "7日間の平均と比較",
+    appsUsed: "使用したアプリ",
+    same: "同じ",
+    of: "{value} 中",
+    avg: "平均 {value}",
+    left: "残り {value}",
+    over: "{value} 超過",
+    noLimit: "制限なし",
+    noLimitShort: "制限なし",
+    more: "+ ほか {n} 件",
+    less: "表示を減らす",
+    synced: "同期 {when}",
+    thisWeek: "今週",
+    perDay: "1日あたりの平均",
+    overDays: "{total} 日中 {n} 日が制限超過",
+    other: "その他",
+    family: "家族",
+    devices: "今日、{n} 台のデバイス",
+    dayApps: "その日のアプリ",
+    noDayApps: "日ごとのアプリを見るには、スマートフォンのデバイスページでアプリのセンサーを有効にしてください。",
+    noStats: "まだ履歴がありません。日が経つにつれて週が埋まります。",
+    noApps: "今日はまだアプリの記録がありません。",
+    pickTitle: "スマートフォンを選択",
+    pickBody: "カードの設定でスクリーンタイムのセンサーを選んでください。",
+    missingTitle: "センサーが見つかりません",
+    missingBody: "{entity} は存在しません。カードの設定でエンティティを確認してください。",
+    unavailableTitle: "スクリーンタイムを利用できません",
+    unavailableBody: "{entity} は現在利用できません。",
+    familyEmpty: "カードの設定で家族のスマートフォンを追加してください。",
+    edEntity: "今日のスクリーンタイム",
+    edTitle: "タイトル (任意)",
+    edLimit: "1日の制限 (任意)",
+    edShown: "「ほか」の前に表示するアプリ数",
+    edPeople: "スマートフォン",
+    edPerson: "人物 (任意、写真用)",
+    edName: "名前 (任意)",
+    edApps: "アプリ",
+    edAppsHint: "アプリの名前や色を変えたり、非表示にしたりできます。このカードにのみ適用されます。",
+    edHide: "{app} を非表示",
+    edShow: "{app} を表示",
+    edColor: "{app} の色",
+    edReset: "リセット",
+  },
+  zh: {
+    today: "今天",
+    vsYesterday: "与昨天相比",
+    vsAverage: "与 7 天平均相比",
+    appsUsed: "使用的应用",
+    same: "相同",
+    of: "共 {value}",
+    avg: "平均 {value}",
+    left: "剩余 {value}",
+    over: "超出 {value}",
+    noLimit: "无限制",
+    noLimitShort: "无限制",
+    more: "+ 另外 {n} 个",
+    less: "收起",
+    synced: "已同步 {when}",
+    thisWeek: "本周",
+    perDay: "每天平均",
+    overDays: "{total} 天中有 {n} 天超出限制",
+    other: "其他",
+    family: "家庭",
+    devices: "今天，{n} 台设备",
+    dayApps: "当天的应用",
+    noDayApps: "在手机的设备页面中启用应用传感器，即可查看每天的应用。",
+    noStats: "还没有历史记录：一周会随着时间逐渐填满。",
+    noApps: "今天还没有应用记录。",
+    pickTitle: "选择手机",
+    pickBody: "请在卡片设置中选择屏幕使用时间传感器。",
+    missingTitle: "未找到传感器",
+    missingBody: "{entity} 不存在。请在卡片设置中检查实体。",
+    unavailableTitle: "屏幕使用时间不可用",
+    unavailableBody: "{entity} 目前不可用。",
+    familyEmpty: "请在卡片设置中添加家人的手机。",
+    edEntity: "今天的屏幕使用时间",
+    edTitle: "标题（可选）",
+    edLimit: "每日限制（可选）",
+    edShown: "“另外”之前显示的应用数",
+    edPeople: "手机",
+    edPerson: "人员（可选，用于照片）",
+    edName: "名称（可选）",
+    edApps: "应用",
+    edAppsHint: "为应用重命名、设置颜色或隐藏它。仅对此卡片生效。",
+    edHide: "隐藏 {app}",
+    edShow: "显示 {app}",
+    edColor: "{app} 的颜色",
+    edReset: "重置",
+  },
+  hi: {
+    today: "आज",
+    vsYesterday: "कल की तुलना में",
+    vsAverage: "7 दिन के औसत की तुलना में",
+    appsUsed: "इस्तेमाल किए गए ऐप",
+    same: "बराबर",
+    of: "{value} में से",
+    avg: "औसत {value}",
+    left: "{value} बाकी",
+    over: "{value} ज़्यादा",
+    noLimit: "कोई सीमा नहीं",
+    noLimitShort: "कोई सीमा नहीं",
+    more: "+ {n} और",
+    less: "कम दिखाएँ",
+    synced: "सिंक हुआ {when}",
+    thisWeek: "इस हफ़्ते",
+    perDay: "प्रति दिन औसत",
+    overDays: "{total} में से {n} दिन सीमा से ज़्यादा",
+    other: "अन्य",
+    family: "परिवार",
+    devices: "आज, {n} डिवाइस",
+    dayApps: "उस दिन के ऐप",
+    noDayApps: "हर दिन के ऐप देखने के लिए फ़ोन के डिवाइस पेज पर ऐप सेंसर चालू करें।",
+    noStats: "अभी कोई इतिहास नहीं: दिनों के साथ हफ़्ता भरता जाएगा।",
+    noApps: "आज अभी तक कोई ऐप नहीं।",
+    pickTitle: "फ़ोन चुनें",
+    pickBody: "कार्ड की सेटिंग में स्क्रीन टाइम सेंसर चुनें।",
+    missingTitle: "सेंसर नहीं मिला",
+    missingBody: "{entity} मौजूद नहीं है। कार्ड की सेटिंग में एंटिटी जाँचें।",
+    unavailableTitle: "स्क्रीन टाइम उपलब्ध नहीं",
+    unavailableBody: "{entity} अभी उपलब्ध नहीं है।",
+    familyEmpty: "कार्ड की सेटिंग में परिवार के फ़ोन जोड़ें।",
+    edEntity: "आज का स्क्रीन टाइम",
+    edTitle: "शीर्षक (वैकल्पिक)",
+    edLimit: "दैनिक सीमा (वैकल्पिक)",
+    edShown: "\"और\" से पहले ऐप",
+    edPeople: "फ़ोन",
+    edPerson: "व्यक्ति (वैकल्पिक, फ़ोटो के लिए)",
+    edName: "नाम (वैकल्पिक)",
+    edApps: "ऐप",
+    edAppsHint: "किसी ऐप का नाम बदलें, उसे अपना रंग दें या छिपाएँ। सिर्फ़ इस कार्ड पर लागू।",
+    edHide: "{app} छिपाएँ",
+    edShow: "{app} दिखाएँ",
+    edColor: "{app} का रंग",
+    edReset: "रीसेट करें",
+  },
+  ar: {
+    today: "اليوم",
+    vsYesterday: "مقارنة بالأمس",
+    vsAverage: "مقارنة بمتوسط 7 أيام",
+    appsUsed: "التطبيقات المستخدمة",
+    same: "نفسه",
+    of: "من {value}",
+    avg: "المتوسط {value}",
+    left: "متبقٍ {value}",
+    over: "تجاوز بمقدار {value}",
+    noLimit: "بلا حد",
+    noLimitShort: "بلا حد",
+    more: "+ {n} أخرى",
+    less: "عرض أقل",
+    synced: "تمت المزامنة {when}",
+    thisWeek: "هذا الأسبوع",
+    perDay: "في اليوم في المتوسط",
+    overDays: "{n} من {total} فوق الحد",
+    other: "أخرى",
+    family: "العائلة",
+    devices: "اليوم، {n} أجهزة",
+    dayApps: "تطبيقات ذلك اليوم",
+    noDayApps: "فعّل مستشعرات التطبيقات في صفحة جهاز الهاتف لرؤية التطبيقات لكل يوم.",
+    noStats: "لا يوجد سجل بعد: يمتلئ الأسبوع مع مرور الأيام.",
+    noApps: "لا توجد تطبيقات اليوم بعد.",
+    pickTitle: "اختر هاتفًا",
+    pickBody: "اختر مستشعر وقت الشاشة في إعدادات البطاقة.",
+    missingTitle: "لم يتم العثور على المستشعر",
+    missingBody: "{entity} غير موجود. تحقق من الكيان في إعدادات البطاقة.",
+    unavailableTitle: "وقت الشاشة غير متاح",
+    unavailableBody: "{entity} غير متاح الآن.",
+    familyEmpty: "أضف هواتف العائلة في إعدادات البطاقة.",
+    edEntity: "وقت الشاشة اليوم",
+    edTitle: "العنوان (اختياري)",
+    edLimit: "الحد اليومي (اختياري)",
+    edShown: "التطبيقات قبل \"أخرى\"",
+    edPeople: "الهواتف",
+    edPerson: "الشخص (اختياري، للصورة)",
+    edName: "الاسم (اختياري)",
+    edApps: "التطبيقات",
+    edAppsHint: "غيّر اسم تطبيق أو امنحه لونك الخاص أو أخفه. ينطبق على هذه البطاقة فقط.",
+    edHide: "إخفاء {app}",
+    edShow: "إظهار {app}",
+    edColor: "لون {app}",
+    edReset: "إعادة التعيين",
+  },
 };
+
+/** Every language that lacks a text English has, as [language, key]; the tests want none. */
+export function missingStrings() {
+  const keys = Object.keys(STRINGS.en);
+  return Object.entries(STRINGS).flatMap(([language, table]) =>
+    keys.filter((key) => typeof table[key] !== "string").map((key) => [language, key]));
+}
 
 export function translate(language, key, values = {}) {
   const base = String(language || "en").split("-")[0].toLowerCase();
@@ -348,11 +725,11 @@ export function parseTopApps(text) {
 
 function cleanRow(row, packageKey) {
   if (!row || typeof row !== "object") return null;
-  const pkg = typeof (row.package ?? packageKey) === "string" ? (row.package ?? packageKey) : null;
+  const rawPkg = row.package ?? row.app_id ?? packageKey;
+  const pkg = typeof rawPkg === "string" && rawPkg ? rawPkg : null;
   const minutes = Number(row.minutes ?? row.usage_minutes ?? row.total_minutes);
   if (!Number.isFinite(minutes) || minutes < 0) return null;
-  const name = typeof row.name === "string" && row.name.trim() ? row.name.trim()
-    : typeof row.app === "string" && row.app.trim() ? row.app.trim() : null;
+  const name = [row.name, row.app_name, row.app].find((value) => typeof value === "string" && value.trim())?.trim() ?? null;
   if (!pkg && !name) return null;
   return { package: pkg, name, minutes };
 }
@@ -377,12 +754,62 @@ export function siblings(hass, entityId, key) {
   ).map((entry) => entry.entity_id);
 }
 
+/** Every other entity on the same device, of any integration. */
+export function deviceMates(hass, entityId) {
+  const entities = hass?.entities ?? {};
+  const device = entities[entityId]?.device_id;
+  if (!device) return [];
+  return Object.values(entities)
+    .filter((entry) => entry.device_id === device && entry.entity_id !== entityId)
+    .map((entry) => entry.entity_id);
+}
+
+/**
+ * The entities a parental control integration keeps for the same child: on the same
+ * device, or carrying the same `child_name` (Family Link puts the time limits on a device
+ * of its own under the child).
+ */
+export function childMates(hass, entityId) {
+  const mates = new Set(deviceMates(hass, entityId));
+  const child = hass?.states?.[entityId]?.attributes?.child_name;
+  if (typeof child === "string" && child) {
+    for (const [id, stateObj] of Object.entries(hass?.states ?? {})) {
+      if (id !== entityId && stateObj?.attributes?.child_name === child) mates.add(id);
+    }
+  }
+  return [...mates];
+}
+
+/**
+ * The daily limit the parental control app already has, in minutes: Family Link's
+ * `daily_limit_minutes` when its limit is on, Family Safety's `allowance_minutes` when its
+ * limits are on. 0 when there is none; a limit in the card's settings always wins.
+ */
+export function sourceLimit(hass, entityId) {
+  let limit = 0;
+  for (const id of childMates(hass, entityId)) {
+    const attributes = hass.states?.[id]?.attributes ?? {};
+    let minutes = 0;
+    if (attributes.daily_limit_enabled === true) minutes = Number(attributes.daily_limit_minutes);
+    else if (attributes.allowance_minutes !== undefined && attributes.limits_enabled !== false) {
+      minutes = Number(attributes.allowance_minutes);
+    }
+    if (Number.isFinite(minutes) && minutes > limit) limit = minutes;
+  }
+  return limit;
+}
+
 /** Today's apps for a phone: the list attribute, else the app sensors, else top_apps. */
 export function readApps(hass, entityId) {
   const stateObj = hass?.states?.[entityId];
   const attributes = stateObj?.attributes ?? {};
   const listed = readAppsAttribute(attributes.apps);
   if (listed.length) return merge(listed);
+  // Family Safety keeps the apps of a child on a sensor of their own on the same device.
+  for (const id of deviceMates(hass, entityId)) {
+    const rows = readAppsAttribute(hass.states?.[id]?.attributes?.applications);
+    if (rows.length) return merge(rows);
+  }
   const fromSensors = [];
   for (const id of siblings(hass, entityId, KEY.app)) {
     const app = hass.states[id];
@@ -409,12 +836,26 @@ function merge(rows) {
   return [...byKey.values()].filter((row) => row.minutes > 0).sort((a, b) => b.minutes - a.minutes);
 }
 
-/** Every Life Dashboard "screen time today" sensor, for the pickers and the stubs. */
+/**
+ * The screen time sensors the cards can read, for the pickers and the stubs: Life
+ * Dashboard's "screen time today", then the daily screen time of Family Link and Family
+ * Safety (in minutes, a duration, and not the time remaining or the formatted text).
+ */
 export function screenTimeEntities(hass) {
-  const fromRegistry = Object.values(hass?.entities ?? {})
+  const entries = Object.values(hass?.entities ?? {});
+  const ours = entries
     .filter((entry) => entry.translation_key === KEY.today && (!entry.platform || entry.platform === PLATFORM))
     .map((entry) => entry.entity_id);
-  if (fromRegistry.length) return fromRegistry.filter((id) => hass.states?.[id]);
+  const parental = entries
+    .filter((entry) => PARENTAL.has(entry.platform) && entry.entity_id.startsWith("sensor.") &&
+      /screen_time/.test(entry.entity_id) && !/remaining|formatted|policy/.test(entry.entity_id))
+    .map((entry) => entry.entity_id)
+    .filter((id) => {
+      const attributes = hass.states?.[id]?.attributes ?? {};
+      return attributes.device_class === "duration" && attributes.unit_of_measurement === "min";
+    });
+  const found = [...ours, ...parental].filter((id) => hass.states?.[id]);
+  if (found.length) return found;
   return Object.keys(hass?.states ?? {}).filter((id) => id.startsWith("sensor.") && id.endsWith("_screen_time_today"));
 }
 
@@ -749,10 +1190,15 @@ async function loadWeek(hass, entityId, packages, days, timeZone) {
     for (const [id, pkg] of apps) if (rows?.[id]) byApp.set(pkg, perDay(rows[id], factor(id), timeZone));
     value = { total: perDay(rows?.[total], factor(total), timeZone), apps: byApp };
   } else {
+    // A sensor that counts up through the day and resets at midnight (Family Link, Family
+    // Safety) has a sum, so its day is the change; one with a state class of measurement
+    // (history_stats) has a maximum, which is the day's total.
     const rows = await hass.callWS({ type: "recorder/statistics_during_period", start_time: start,
-      statistic_ids: [entityId], period: "day", types: ["max"] }).catch(() => ({}));
+      statistic_ids: [entityId], period: "day", types: ["change", "max"] }).catch(() => ({}));
     const unit = hass.states?.[entityId]?.attributes?.unit_of_measurement;
-    value = { total: perDay(rows?.[entityId], UNIT_MINUTES[unit] ?? 1, timeZone, "max"), apps: new Map() };
+    const own = rows?.[entityId] ?? [];
+    const field = own.some((row) => Number.isFinite(row?.change)) ? "change" : "max";
+    value = { total: perDay(own, UNIT_MINUTES[unit] ?? 1, timeZone, field), apps: new Map(), other: true };
   }
   statsCache.set(cacheKey, { at: Date.now(), packages: wanted, value });
   return value;
@@ -809,6 +1255,10 @@ class ScreenTimeBase extends Base {
       parts.push(id, hass?.states?.[id]?.last_updated);
       for (const key of [KEY.yesterday, KEY.app, KEY.sync]) {
         for (const sid of siblings(hass, id, key)) parts.push(sid, hass.states?.[sid]?.last_updated);
+      }
+      // The apps and the limits of a parental control integration live on other sensors.
+      if (PARENTAL.has(hass?.entities?.[id]?.platform)) {
+        for (const mid of childMates(hass, id)) parts.push(mid, hass.states?.[mid]?.last_updated);
       }
     }
     return JSON.stringify(parts);
@@ -918,14 +1368,16 @@ class ScreenTimeCard extends ScreenTimeBase {
     const empty = this._empty(entity);
     if (empty) return empty;
     const total = toMinutes(this._hass.states[entity]);
-    const limit = parseLimit(this._config.limit);
-    const yesterday = toMinutes(this._hass.states[siblings(this._hass, entity, KEY.yesterday)[0]]);
+    const limit = parseLimit(this._config.limit) || sourceLimit(this._hass, entity);
+    let yesterday = toMinutes(this._hass.states[siblings(this._hass, entity, KEY.yesterday)[0]]);
     const week = this._week(entity, WEEK_DAYS + 1);
     const { timeZone } = localeSettings(this._hass);
     let average = null;
     if (week) {
       const keys = dayKeys(Date.now(), WEEK_DAYS + 1, timeZone).slice(0, -1);
       average = mean(keys.map((key) => week.total.get(key)));
+      // Sources without a sensor for yesterday (Family Link, Family Safety): from the statistics.
+      if (yesterday === null && week.total.has(keys[keys.length - 1])) yesterday = week.total.get(keys[keys.length - 1]);
     }
     const status = statusOf(total, limit);
     const reference = limit || average || total || 1;
@@ -997,7 +1449,7 @@ class ScreenTimeWeekCard extends ScreenTimeBase {
     if (empty) return empty;
     const days = Math.min(14, Math.max(3, Number(this._config.days) || WEEK_DAYS));
     const { language, timeZone } = localeSettings(this._hass);
-    const limit = parseLimit(this._config.limit);
+    const limit = parseLimit(this._config.limit) || sourceLimit(this._hass, entity);
     const keys = dayKeys(Date.now(), days, timeZone);
     const todayKey = keys[keys.length - 1];
     const live = toMinutes(this._hass.states[entity]) ?? 0;
@@ -1045,7 +1497,7 @@ class ScreenTimeWeekCard extends ScreenTimeBase {
       detail.push(el("ul", { class: "legend" },
         named.map(({ row, look }) => el("li", {}, appIcon(look, true), look.name, " ", el("b", {}, this._d(row.minutes)))),
         other >= 1 ? el("li", {}, this._t("other"), " ", el("b", {}, this._d(other))) : null));
-    } else if (dayTotal > 0) {
+    } else if (dayTotal > 0 && !week?.other) {
       detail.push(el("p", { class: "note" }, this._t("noDayApps")));
     }
 
@@ -1105,8 +1557,8 @@ class ScreenTimeFamilyCard extends ScreenTimeBase {
       const total = toMinutes(stateObj);
       const personObj = person.person ? this._hass.states[person.person] : null;
       const device = this._deviceName(person.entity);
-      const name = person.name || personObj?.attributes?.friendly_name || device;
-      const limit = parseLimit(person.limit ?? this._config.limit);
+      const name = person.name || personObj?.attributes?.friendly_name || stateObj?.attributes?.child_name || device;
+      const limit = parseLimit(person.limit ?? this._config.limit) || sourceLimit(this._hass, person.entity);
       const status = statusOf(total ?? 0, limit);
       const open = this._ui.person === index;
       const items = total === null ? [] : this._visibleApps(person.entity);

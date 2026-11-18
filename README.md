@@ -48,7 +48,7 @@ The cards read what Android already counts for Digital Wellbeing, sent to Home A
 - **The week.** A bar per day with the limit as a line, the days over it marked, and the average. Tap a day to see its apps as one stacked bar.
 - **The family.** Everyone in one card, each against their own limit, with their three biggest apps. Tap a person for all their apps. With a `person`, their picture shows.
 - **Icons that look like the apps.** A built-in list of 126 popular Android apps with their name, brand color and icon. Any other app gets its first letter on a color of its own. Rename an app, give it your own color, or hide it, per card.
-- **Your locale and theme.** English, Dutch and German, durations in your language, and the colors of your theme in light and dark. The colors for on track, nearly there and over are CSS variables.
+- **Your locale and theme.** English, Arabic, Chinese, Dutch, French, German, Hindi, Italian, Japanese, Portuguese and Spanish, durations in your language, and the colors of your theme in light and dark. The colors for on track, nearly there and over are CSS variables.
 
 ## Install
 
@@ -103,7 +103,7 @@ people:
 | Option | Cards | Description |
 | --- | --- | --- |
 | `entity` | today, week | The phone's screen time today, such as `sensor.your_phone_screen_time_today` |
-| `limit` | all | The daily limit: `"3:30"`, `"2h"`, `"45m"` or minutes. Without one the ring fills against the 7-day average |
+| `limit` | all | The daily limit: `"3:30"`, `"2h"`, `"45m"` or minutes. With Family Link or Family Safety the limit set there is used when you leave this out. Without any limit the ring fills against the 7-day average |
 | `title` | all | Instead of the phone's name, "This week" or "Family" |
 | `apps_shown` | today | Apps before "+ more", 5 by default |
 | `days` | week | Days in the chart, 3 to 14, 7 by default |
@@ -123,7 +123,9 @@ apps:
 
 ## Where the screen time comes from
 
-- **Life Dashboard** (Android): the app reads the usage statistics Digital Wellbeing shows, with the usage access permission, and the integration makes a device per phone. The cards find the phone's other sensors on their own: yesterday, the app sensors, the last sync, and the week from the integration's long-term statistics. Today's apps come from the sensor's `top_apps` and from the app sensors you switched on (on the phone's device page, under disabled entities); the apps of earlier days need those app sensors.
+- **Life Dashboard** (Android): the app reads the usage statistics Digital Wellbeing shows, with the usage access permission, and the integration makes a device per phone. The cards find the phone's other sensors on their own: yesterday, the app sensors, the last sync, and the week from the integration's long-term statistics. With integration 1.2.0 or newer every app of the day comes along; before that, the top five and the app sensors you switched on (on the phone's device page, under disabled entities). The apps of earlier days need those app sensors.
+- **Google Family Link**, through [HAFamilyLink](https://github.com/noiwid/HAFamilyLink): pick a child's **Daily Screen Time** sensor. Its apps come along, the week comes from the sensor's statistics, and the daily limit set in Family Link is used unless you give the card your own.
+- **Microsoft Family Safety**, through [HAFamilySafety](https://github.com/noiwid/HAFamilySafety): pick the child's **Screen Time** sensor. The apps come from the account's **Applications** sensor and the limit from its time remaining sensor.
 - **Any other sensor** with today's total in hours or minutes that starts at zero each day, such as `history_stats` with `type: time` over `binary_sensor.your_phone_interactive`. The week then comes from that sensor's own statistics. An `apps` attribute, as a list of `package`, `name` and `minutes`, gives the apps too.
 - **An iPhone** has no screen time for apps to read: iOS has no API for it.
 
