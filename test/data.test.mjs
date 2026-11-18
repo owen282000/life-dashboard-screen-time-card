@@ -161,5 +161,78 @@ test("formatDuration and translate follow the language", () => {
   assert.equal(formatDuration(120, "en"), "2h");
   assert.equal(formatDuration(NaN), "");
   assert.equal(translate("nl-NL", "left", { value: "14m" }), "nog 14m");
-  assert.equal(translate("fr", "left", { value: "14m" }), "14m left");
+  assert.equal(translate("sv", "left", { value: "14m" }), "14m left");
+});
+
+// --- Family Link and Family Safety ---------------------------------------------------
+
+import { childMates, deviceMates, missingStrings, sourceLimit } from "../dist/life-dashboard-screen-time-card.js";
+
+// A fake hass with a Family Link child (screen time on the child's device, the time limit
+// on a device of its own) and a Family Safety child (everything on one account device).
+function parental() {
+  const entities = {
+    "sensor.lisa_daily_screen_time": { entity_id: "sensor.lisa_daily_screen_time", device_id: "fl-child", platform: "familylink" },
+    "sensor.lisa_screen_time_formatted": { entity_id: "sensor.lisa_screen_time_formatted", device_id: "fl-child", platform: "familylink" },
+    "sensor.lisa_s_tablet_screen_time_remaining": { entity_id: "sensor.lisa_s_tablet_screen_time_remaining", device_id: "fl-tablet", platform: "familylink" },
+    "sensor.tom_screen_time": { entity_id: "sensor.tom_screen_time", device_id: "fs-tom", platform: "microsoft_family_safety" },
+    "sensor.tom_applications": { entity_id: "sensor.tom_applications", device_id: "fs-tom", platform: "microsoft_family_safety" },
+    "sensor.tom_windows_time_remaining": { entity_id: "sensor.tom_windows_time_remaining", device_id: "fs-tom", platform: "microsoft_family_safety" },
+  };
+  const duration = { unit_of_measurement: "min", device_class: "duration" };
+  const states = {
+    "sensor.lisa_daily_screen_time": state(92.5, "min", { device_class: "duration", child_name: "Lisa", total_seconds: 5550,
+      apps: [{ name: "YouTube Kids", package: "com.google.android.apps.youtube.kids", time: "00:46:00", minutes: 46 },
+        { name: "Minecraft", package: "com.mojang.minecraftpe", time: "00:38:00", minutes: 38 }] }),
+    "sensor.lisa_screen_time_formatted": { state: "01:32:30", attributes: { child_name: "Lisa" } },
+    "sensor.lisa_s_tablet_screen_time_remaining": state(27, "min", { ...duration, child_name: "Lisa", daily_limit_enabled: true, daily_limit_minutes: 120 }),
+    "sensor.tom_screen_time": state(161, "min", { device_class: "duration", raw_microsoft_minutes: 161 }),
+    "sensor.tom_applications": { state: "2", attributes: { applications: [
+      { app_id: "com.zhiliaoapp.musically", app_name: "TikTok", usage_minutes: 58, blocked: false },
+      { app_id: "Microsoft.MinecraftUWP", app_name: "Minecraft for Windows", usage_minutes: 41.5, blocked: false }] } },
+    "sensor.tom_windows_time_remaining": state(0, "min", { ...duration, allowance_minutes: 120, limits_enabled: true }),
+  };
+  return { entities, states };
+}
+
+test("Family Link: the apps on the sensor itself, the limit from the child's other device", () => {
+  const hass = parental();
+  assert.deepEqual(readApps(hass, "sensor.lisa_daily_screen_time").map((row) => [row.package, row.minutes]), [
+    ["com.google.android.apps.youtube.kids", 46],
+    ["com.mojang.minecraftpe", 38],
+  ]);
+  assert.ok(childMates(hass, "sensor.lisa_daily_screen_time").includes("sensor.lisa_s_tablet_screen_time_remaining"));
+  assert.equal(sourceLimit(hass, "sensor.lisa_daily_screen_time"), 120);
+  hass.states["sensor.lisa_s_tablet_screen_time_remaining"].attributes.daily_limit_enabled = false;
+  assert.equal(sourceLimit(hass, "sensor.lisa_daily_screen_time"), 0);
+});
+
+test("Family Safety: the apps and the allowance on the account's other sensors", () => {
+  const hass = parental();
+  assert.deepEqual(deviceMates(hass, "sensor.tom_screen_time").sort(), ["sensor.tom_applications", "sensor.tom_windows_time_remaining"]);
+  assert.deepEqual(readApps(hass, "sensor.tom_screen_time").map((row) => [row.package, row.name, row.minutes]), [
+    ["com.zhiliaoapp.musically", "TikTok", 58],
+    ["Microsoft.MinecraftUWP", "Minecraft for Windows", 41.5],
+  ]);
+  assert.equal(sourceLimit(hass, "sensor.tom_screen_time"), 120);
+  hass.states["sensor.tom_windows_time_remaining"].attributes.limits_enabled = false;
+  assert.equal(sourceLimit(hass, "sensor.tom_screen_time"), 0);
+});
+
+test("the pickers offer the daily screen time of both, not the time remaining or the text", () => {
+  const hass = parental();
+  assert.deepEqual(screenTimeEntities(hass).sort(), ["sensor.lisa_daily_screen_time", "sensor.tom_screen_time"]);
+  // Life Dashboard first when there is one.
+  const both = phone();
+  Object.assign(both.entities, hass.entities);
+  Object.assign(both.states, hass.states);
+  assert.equal(screenTimeEntities(both)[0], "sensor.pixel_screen_time_today");
+});
+
+test("every language has every text", () => {
+  assert.deepEqual(missingStrings(), []);
+  for (const language of ["en", "nl", "de", "es", "fr", "it", "pt-BR", "ja", "zh-Hans", "hi", "ar"]) {
+    assert.notEqual(translate(language, "today"), "today", language);
+  }
+  assert.equal(translate("es", "left", { value: "14 min" }), "quedan 14 min");
 });

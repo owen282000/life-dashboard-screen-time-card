@@ -6,6 +6,12 @@ All notable changes to these cards are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Google Family Link (HAFamilyLink) and Microsoft Family Safety (HAFamilySafety) as sources: their daily screen time sensors are in the pickers, the apps come along, the week reads their statistics, and the daily limit set there is used when the card has none
+- Yesterday from the statistics for sources without a yesterday sensor
+- Arabic, Chinese, French, Hindi, Italian, Japanese, Portuguese and Spanish, the eleven languages of the Life Dashboard apps
+
 ### Changed
 
 - The cards are in the Marketplace's default list: the README leads with searching for them, with a custom repository as the fallback
