@@ -65,7 +65,7 @@ The app reads what Android already counts for Digital Wellbeing and sends it to 
 
 ### Through the Home Assistant Marketplace
 
-The cards are in the Marketplace's default list. In **Settings > Marketplace** (HACS before Home Assistant 2026.11), search for **Life Dashboard Screen Time** and download it. The button opens it in your Home Assistant straight away:
+The cards are in the Marketplace's default list. In **Settings > Marketplace** (HACS before Home Assistant 2026.11), search for **Life Dashboard Screen Time Cards** and download them. The button opens them in your Home Assistant straight away:
 
 [![Open your Home Assistant instance and open this repository in the Marketplace](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=owen282000&repository=life-dashboard-screen-time-card&category=plugin)
 
