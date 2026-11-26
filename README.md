@@ -96,7 +96,9 @@ Set up Life Dashboard first. Plan on 15 to 30 minutes the first time, most of it
 
 1. Install the [Life Dashboard integration](https://github.com/owen282000/life-dashboard-ha) from the Marketplace.
 2. Add it in Home Assistant, under Settings > Devices & services. It shows a pairing QR code.
-3. Install the app and scan the code, with **Screen Time** picked under **Send from**. It is listed on Google Play as Health Data for Home Assistant and costs €4.99 (US$4.99) once. The APK on GitHub and F-Droid is free. If the code isn't ready yet, pick **I will set this up later** and pair afterward.
+3. Install the app and scan the code, with **Screen Time** picked under **Send from**. It is on [Google Play](https://play.google.com/store/apps/details?id=com.owen282000.lifedashboard&referrer=utm_source%3Dgh-screentime-readme%26utm_medium%3Dreadme) as Health Data for Home Assistant, €4.99 (US$4.99) once. If the code isn't ready yet, pick **I will set this up later** and pair afterward.
+
+   Other ways to install: the same app is free as an APK [on GitHub](https://github.com/owen282000/life-dashboard-companion-app#install) and on [F-Droid](https://f-droid.org/packages/com.owen282000.lifedashboard/).
 4. Grant the permissions. For these cards that is usage access, on the app's **Screen Time** tab. Health Connect is only for health data.
 5. Tap **Sync Now** on the **Screen Time** tab. The phone shows up as a device with `sensor.your_phone_screen_time_today`.
 6. Past days need no extra step: every sync sends the last seven days of screen time again. **Send history** on the **Health** tab is for your health data.
